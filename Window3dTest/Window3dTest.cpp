@@ -9,14 +9,16 @@ constexpr int MYWINDOW_INIT_HEIGHT = 600;
 constexpr LPCWSTR MYWINDOW_TITLETEXT = L"3D Test";
 
 constexpr UINT_PTR TICK_TIMER_ID = 1;
-constexpr UINT CLOCKS_PER_TICK = 100;
+constexpr UINT CLOCKS_PER_TICK = 30; // Lower number for smoother, but takes up more GPU
 
-static World::WorldManager worldManager(MYWINDOW_INIT_WIDTH, MYWINDOW_INIT_HEIGHT);
+static World::WorldManager worldManager;
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszArgument, int nFunsterStil)
 {
+	worldManager.windowResized(MYWINDOW_INIT_WIDTH, MYWINDOW_INIT_HEIGHT);
+
 	Gdiplus::GdiplusStartupInput gdiStartupInput;
 	ULONG_PTR gdiToken;
 	Gdiplus::GdiplusStartup(&gdiToken, &gdiStartupInput, nullptr);
@@ -84,15 +86,32 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszA
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
+	HDC memdc;
 	PAINTSTRUCT ps;
+	RECT rcClientRect;
+	HBITMAP bmp;
+	HBITMAP oldBmp;
 
 	switch (message)
 	{
 	case WM_PAINT:
 		hdc = BeginPaint(hwnd, &ps);
-		worldManager.drawToWindow(hdc);
+		memdc = CreateCompatibleDC(hdc);
+		GetClientRect(hwnd, &rcClientRect);
+		bmp = CreateCompatibleBitmap(hdc, rcClientRect.right - rcClientRect.left, rcClientRect.bottom - rcClientRect.top);
+		oldBmp = (HBITMAP) SelectObject(memdc, bmp);
+
+		worldManager.drawToWindow(memdc);
+
+		BitBlt(hdc, 0, 0, rcClientRect.right - rcClientRect.left, rcClientRect.bottom - rcClientRect.top, memdc, 0, 0, SRCCOPY);
+		SelectObject(memdc, oldBmp);
+		DeleteObject(bmp);
+		DeleteDC(memdc);
+
 		EndPaint(hwnd, &ps);
 		break;
+	case WM_ERASEBKGND:
+		return true;
 	case WM_KEYDOWN:
 		worldManager.keydown(wParam);
 		break;
@@ -104,7 +123,10 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		break;
 	case WM_TIMER:
 		if (wParam == TICK_TIMER_ID)
-		{ InvalidateRect(hwnd, NULL, FALSE); /* Updates the window */ }
+		{
+			InvalidateRect(hwnd, NULL, FALSE); /* Updates the window */
+			// UpdateWindow(hwnd);
+		}
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);

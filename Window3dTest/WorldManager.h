@@ -9,14 +9,16 @@ namespace World
 	class WorldManager
 	{
 	private:
-		UINT windowWidth;
-		UINT windowHeight;
+		int windowWidth;
+		int windowHeight;
+		bool keysdown[256];
+		double shmoffset;
 
 	public:
-		WorldManager(UINT windowWidth, UINT windowHeight);
-		void windowResized(UINT width, UINT height);
-		void keydown(UINT keycode);
-		void keyup(UINT keycode);
+		WorldManager();
+		void windowResized(int width, int height);
+		void keydown(BYTE keycode);
+		void keyup(BYTE keycode);
 		void drawToWindow(HDC hdc);
 	};
 }

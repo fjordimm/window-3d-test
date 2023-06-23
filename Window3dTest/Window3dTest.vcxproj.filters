@@ -32,5 +32,8 @@
     <ClInclude Include="WorldManager.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
+    <ClInclude Include="point.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

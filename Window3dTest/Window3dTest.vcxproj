@@ -132,6 +132,7 @@
     <ClCompile Include="Window3dTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="point.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
