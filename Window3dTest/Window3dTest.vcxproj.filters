@@ -27,12 +27,18 @@
     <ClCompile Include="Window3dTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="projection.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WorldManager.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
-    <ClInclude Include="point.h">
+    <ClInclude Include="projection.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,7 @@
 
 #include <windows.h>
 #include <gdiplus.h>
-#include "WorldManager.h"
+#include "World.h"
 
 constexpr LPCWSTR MYWINDOW_SZCLASSNAME = L"ThreeDTest";
 constexpr int MYWINDOW_INIT_WIDTH = 900;

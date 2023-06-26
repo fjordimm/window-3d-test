@@ -1,8 +1,9 @@
 
 #pragma once
 
+#include <vector>
 #include <windows.h>
-#include <gdiplus.h>
+#include "projection.h"
 
 namespace World
 {
@@ -11,8 +12,10 @@ namespace World
 	private:
 		int windowWidth;
 		int windowHeight;
+		ProjectionMatrix projectionMatrix;
 		bool keysdown[256];
-		double shmoffset;
+		Vec3d cameraOffset;
+		std::vector<Mesh> meshes;
 
 	public:
 		WorldManager();

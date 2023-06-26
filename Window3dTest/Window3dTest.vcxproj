@@ -128,11 +128,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="projection.cpp" />
     <ClCompile Include="WorldManager.cpp" />
     <ClCompile Include="Window3dTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="point.h" />
+    <ClInclude Include="projection.h" />
+    <ClInclude Include="World.h" />
     <ClInclude Include="WorldManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
